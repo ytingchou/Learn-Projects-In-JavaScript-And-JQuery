@@ -25,3 +25,34 @@ $(function() {
     }
   });
 });
+
+function search() {
+  // Clear Results
+  $('#results').html('');
+  $('#buttons').html('');
+
+  // Get Form Input
+  q = $('#query').val();
+
+  // Run GET Request on API
+  $.get(
+      "https://www.googleapis.com/youtube/v3/search", {
+        part: 'snippet',
+        q: q,
+        type: 'video',
+        key: 'AIzaSyBoGXWc8Kav-uqGT5Tes2aHweAlVUP4uUA'
+      }).done(function(data) {
+        var nextPageToken = data.nextPageToken;
+        var prevPageToken = data.prevPageToken;
+
+        $.each(data.items, function(i, item) {
+          // Get Output
+          var output = getOutput(item);
+
+          // Display Results
+          $('#results').append(output);
+        });
+      });
+
+  return false;
+}
