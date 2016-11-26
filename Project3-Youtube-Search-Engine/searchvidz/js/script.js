@@ -52,6 +52,11 @@ function search() {
           // Display Results
           $('#results').append(output);
         });
+
+        var buttons = getButtons(prevPageToken, nextPageToken);
+
+        // Display Buttons
+        $('#buttons').append(buttons);
       });
 
   return false;
@@ -81,4 +86,22 @@ function getOutput(item) {
     '';
 
     return output;
+}
+
+// Build the buttons
+function getButtons(prevPageToken, nextPageToken) {
+  var btn_output = '';
+  if (!prevPageToken) {
+    btn_output = '<div class="button-container">' +
+                 '<button id="next-button" class="paging-button" data-token="' + nextPageToken + '" data-query="' + q + '"' +
+                 'onclick="nextPage();">Next Page</button></div>';
+  } else {
+    btn_output = '<div class="button-container">' +
+                 '<button id="prev-button" class="paging-button" data-token="' + prevPageToken + '" data-query="' + q + '"' +
+                 'onclick="prevPage();">Prev Page</button>' +
+                 '<button id="next-button" class="paging-button" data-token="' + nextPageToken + '" data-query="' + q + '"' +
+                 'onclick="nextPage();">Next Page</button></div>';
+  }
+
+  return btn_output;
 }
