@@ -53,13 +53,85 @@ function search() {
           $('#results').append(output);
         });
 
-        var buttons = getButtons(prevPageToken, nextPageToken);
+        var buttons = getButtons(prevPageToken, nextPageToken, q);
 
         // Display Buttons
         $('#buttons').append(buttons);
       });
 
   return false;
+}
+
+// Next Prev Function
+function prevPage() {
+  var token = $('#prev-button').data('token');
+  var q = $('#prev-button').data('query');
+
+  // Clear Results
+  $('#results').html('');
+  $('#buttons').html('');
+
+  // Run GET Request on API
+  $.get(
+      "https://www.googleapis.com/youtube/v3/search", {
+        part: 'snippet',
+        q: q,
+        pageToken: token,
+        type: 'video',
+        key: 'AIzaSyBoGXWc8Kav-uqGT5Tes2aHweAlVUP4uUA'
+      }).done(function(data) {
+        var nextPageToken = data.nextPageToken;
+        var prevPageToken = data.prevPageToken;
+
+        $.each(data.items, function(i, item) {
+          // Get Output
+          var output = getOutput(item);
+
+          // Display Results
+          $('#results').append(output);
+        });
+
+        var buttons = getButtons(prevPageToken, nextPageToken, q);
+
+        // Display Buttons
+        $('#buttons').append(buttons);
+      });
+}
+
+// Next Page Function
+function nextPage() {
+  var token = $('#next-button').data('token');
+  var q = $('#next-button').data('query');
+
+  // Clear Results
+  $('#results').html('');
+  $('#buttons').html('');
+
+  // Run GET Request on API
+  $.get(
+      "https://www.googleapis.com/youtube/v3/search", {
+        part: 'snippet',
+        q: q,
+        pageToken: token,
+        type: 'video',
+        key: 'AIzaSyBoGXWc8Kav-uqGT5Tes2aHweAlVUP4uUA'
+      }).done(function(data) {
+        var nextPageToken = data.nextPageToken;
+        var prevPageToken = data.prevPageToken;
+
+        $.each(data.items, function(i, item) {
+          // Get Output
+          var output = getOutput(item);
+
+          // Display Results
+          $('#results').append(output);
+        });
+
+        var buttons = getButtons(prevPageToken, nextPageToken, q);
+
+        // Display Buttons
+        $('#buttons').append(buttons);
+      });
 }
 
 // Build Output
@@ -89,7 +161,7 @@ function getOutput(item) {
 }
 
 // Build the buttons
-function getButtons(prevPageToken, nextPageToken) {
+function getButtons(prevPageToken, nextPageToken, q) {
   var btn_output = '';
   if (!prevPageToken) {
     btn_output = '<div class="button-container">' +
