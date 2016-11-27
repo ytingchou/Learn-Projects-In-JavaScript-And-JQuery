@@ -7,7 +7,11 @@
   <script src="../jquery.linkIt.js"></script>
   <script>
     $(document).ready(function() {
-      $('span').linkIt();
+      $('span').linkIt({
+        href: 'http://test.com',
+        text: 'Click Me',
+        target: '_blank'
+      });
     });
   </script>
 </head>
